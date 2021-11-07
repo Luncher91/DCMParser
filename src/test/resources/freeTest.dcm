@@ -1,0 +1,217 @@
+﻿!comment 1
+ *comment 2
+.comment 3
+
+KONSERVIERUNG_FORMAT 2.0
+
+FUNKTIONEN
+	FKT nameOfTheFirstFunction "version 42" "long----name"
+	FKT nameOfTheSecondFunction "12.4" "longerrrrrrrrrr name"
+	FKT nameOfTheFifthFunction "12.4" "longerrrrrrrrrr name"
+END
+
+FUNKTIONEN
+	FKT nameOfTheThirdFunction "version 42" "long----name"
+	FKT nameOfTheFourthFunction "12.4" "longerrrrrrrrrr name"
+END
+
+VARIANTENKODIERUNG
+	KRITERIUM bed1 1 2.0 .3 4E5 -7 true false
+	KRITERIUM criterion2 1 2.0 .3 4E5 -7 true false
+END
+
+MODULKOPF iAmTheHead "line 1"
+MODULKOPF "line 2"
+MODULKOPF "line 3"
+MODULKOPF iAmTheSecondHead "line 1"
+MODULKOPF "line 2"
+
+FESTWERT parameter1
+	LANGNAME "FESTWERT parameter 1"
+	DISPLAYNAME asam_Parameter1
+	VAR var1=1.0
+	FUNKTION nameOfTheFirstFunction
+	EINHEIT_W "m/s²"
+	WERT 7.123
+END
+
+FESTWERT parameter2
+	LANGNAME "FESTWERT parameter 2"
+	DISPLAYNAME asam_Parameter2
+	VAR var1=3.0
+	FUNKTION nameOfTheFirstFunction
+	EINHEIT_W "m/s²"
+	TEXT "text value"
+END
+
+FESTWERTEBLOCK array1 2
+	LANGNAME "FESTWERTBLOCK 1"
+	EINHEIT_W "pcs"
+	WERT 1 2
+END
+
+FESTWERTEBLOCK array2 2
+	LANGNAME "FESTWERTBLOCK 2"
+	EINHEIT_W "pcs"
+	TEXT "1" "2"
+END
+
+FESTWERTEBLOCK matrix1 2 @ 3
+	LANGNAME "FESTWERTBLOCK 3"
+	EINHEIT_W "pcs"
+	WERT 11 12
+	WERT 21 22
+	WERT 31 32
+END
+
+FESTWERTEBLOCK matrix2 2 @ 3
+	LANGNAME "FESTWERTBLOCK 4"
+	EINHEIT_W "pcs"
+	TEXT "11" "12"
+	TEXT "21" "22"
+	TEXT "31" "32"
+END
+
+KENNLINIE charLine1 2
+	LANGNAME "KENNLINIE 1"
+	EINHEIT_X "1/pcs"
+	EINHEIT_W "pcs"
+	ST/X 3 4
+	WERT 1 2
+END
+
+KENNLINIE charLine2 2
+	LANGNAME "KENNLINIE 2"
+	EINHEIT_X "1/pcs"
+	EINHEIT_W "pcs"
+	ST/X 3 4
+	TEXT "1" "2"
+END
+
+KENNFELD map1 2 3
+	LANGNAME "KENNFELD 1"
+	EINHEIT_X "1/pcs"
+	EINHEIT_Y "°C"
+	EINHEIT_W "pcs"
+	ST/X 3 4
+	ST/Y 5
+	WERT 11 12
+	ST/Y 6
+	WERT 21 22
+	ST/Y 7
+	WERT 31 32
+END
+
+KENNFELD map2 2 3
+	LANGNAME "KENNFELD 2"
+	EINHEIT_X "1/pcs"
+	EINHEIT_Y "°C"
+	EINHEIT_W "pcs"
+	ST/X 3 4
+	ST/Y 5
+	TEXT "11" "12"
+	ST/Y 6
+	TEXT "21" "22"
+	ST/Y 7
+	TEXT "31" "32"
+END
+
+FESTKENNLINIE fixedCharLine1 2
+	LANGNAME "FESTKENNLINIE 1"
+	EINHEIT_X "1/pcs"
+	EINHEIT_W "pcs"
+	ST/X 3 4
+	WERT 1 2
+END
+
+FESTKENNLINIE fixedCharLine2 2
+	LANGNAME "FESTKENNLINIE 2"
+	EINHEIT_X "1/pcs"
+	EINHEIT_W "pcs"
+	ST/X 3 4
+	TEXT "1" "2"
+END
+
+FESTKENNFELD fixedMap1 2 3
+	LANGNAME "FESTKENNFELD 1"
+	EINHEIT_X "1/pcs"
+	EINHEIT_Y "°C"
+	EINHEIT_W "pcs"
+	ST/X 3 4
+	ST/Y 5
+	WERT 11 12
+	ST/Y 6
+	WERT 21 22
+	ST/Y 7
+	WERT 31 32
+END
+
+FESTKENNFELD fixedMap2 2 3
+	LANGNAME "FESTKENNFELD 2"
+	EINHEIT_X "1/pcs"
+	EINHEIT_Y "°C"
+	EINHEIT_W "pcs"
+	ST/X 3 4
+	ST/Y 5
+	TEXT "11" "12"
+	ST/Y 6
+	TEXT "21" "22"
+	ST/Y 7
+	TEXT "31" "32"
+END
+
+GRUPPENKENNLINIE groupCharLine1 2
+	LANGNAME "GRUPPENKENNLINIE 1"
+	EINHEIT_X "1/pcs"
+	EINHEIT_W "pcs"
+	*SSTX distr/bla hello
+	ST/X 3 4
+	WERT 1 2
+END
+
+GRUPPENKENNLINIE groupCharLine2 2
+	LANGNAME "GRUPPENKENNLINIE 2"
+	EINHEIT_X "1/pcs"
+	EINHEIT_W "pcs"
+	*SSTX distr/bla hello
+	ST/X 3 4
+	TEXT "1" "2"
+END
+
+GRUPPENKENNFELD groupMap1 2 3
+	LANGNAME "GRUPPENKENNFELD 1"
+	EINHEIT_X "1/pcs"
+	EINHEIT_Y "°C"
+	EINHEIT_W "pcs"
+	*SSTX distr/bla hello
+	*SSTY distr/bla hello2
+	ST/X 3 4
+	ST/Y 5
+	WERT 11 12
+	ST/Y 6
+	WERT 21 22
+	ST/Y 7
+	WERT 31 32
+END
+
+GRUPPENKENNFELD groupMap2 2 3
+	LANGNAME "GRUPPENKENNFELD 2"
+	EINHEIT_X "1/pcs"
+	EINHEIT_Y "°C"
+	EINHEIT_W "pcs"
+	*SSTX distr/bla hello
+	*SSTY distr/bla hello2
+	ST/X 3 4
+	ST/Y 5
+	TEXT "11" "12"
+	ST/Y 6
+	TEXT "21" "22"
+	ST/Y 7
+	TEXT "31" "32"
+END
+
+STUETZSTELLENVERTEILUNG distribution1 2
+	LANGNAME "STUETZSTELLENVERTEILUNG 1"
+	EINHEIT_X "1/pcs"
+	ST/X 3 4
+END
