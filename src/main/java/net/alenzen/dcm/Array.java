@@ -1,5 +1,6 @@
 package net.alenzen.dcm;
 
+import java.io.IOException;
 import java.util.List;
 
 public class Array extends BasicSyntaxElement {
@@ -29,5 +30,19 @@ public class Array extends BasicSyntaxElement {
 
 	public void setValues(List<IValue> values) {
 		this.values = values;
+	}
+
+	@Override
+	public void writeTo(DcmWriter p) throws IOException {
+		p.writeln("FESTWERTEBLOCK", this.getName(), Integer.toString(sizeX));
+
+		p.indent();
+		super.writeTo(p);
+		p.writeln("EINHEIT_W", DcmWriter.toDcmString(unitW));
+		p.writeIValues(values);
+		p.dedent();
+
+		p.writeEnd();
+		p.writeln();
 	}
 }

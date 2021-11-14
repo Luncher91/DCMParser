@@ -1,5 +1,6 @@
 package net.alenzen.dcm;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
@@ -69,5 +70,10 @@ public class NumberValue extends BigDecimal implements IValue {
 
 	public NumberValue(String val) {
 		super(val);
+	}
+
+	@Override
+	public void writeTo(DcmWriter dcmWriter) throws IOException {
+		dcmWriter.writeln("WERT", this.toString());
 	}
 }

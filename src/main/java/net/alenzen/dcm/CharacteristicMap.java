@@ -1,8 +1,9 @@
 package net.alenzen.dcm;
 
+import java.io.IOException;
 import java.util.List;
 
-public class CharacteristicMap extends BasicSyntaxElement{
+public class CharacteristicMap extends BasicSyntaxElement {
 	private int sizeX;
 	private int sizeY;
 	private String unitX;
@@ -74,5 +75,35 @@ public class CharacteristicMap extends BasicSyntaxElement{
 
 	public void setValues(List<List<IValue>> values) {
 		this.values = values;
+	}
+
+	@Override
+	public void writeTo(DcmWriter p) throws IOException {
+		writeTo(p, "KENNFELD");
+	}
+	
+	protected void writeTo(DcmWriter p, String keyword) throws IOException {
+		p.writeln(keyword, this.getName(), Integer.toString(sizeX), Integer.toString(sizeY));
+
+		p.indent();
+		super.writeTo(p);
+		p.writeln("EINHEIT_X", DcmWriter.toDcmString(unitX));
+		p.writeln("EINHEIT_Y", DcmWriter.toDcmString(unitY));
+		p.writeln("EINHEIT_W", DcmWriter.toDcmString(unitW));
+		writeToAfterUnits(p);
+		p.writeln("ST/X", stx);
+		for(int i = 0; i < values.size(); i++) {
+			List<IValue> vals = values.get(i);
+			IValue st = sty.get(i);
+			p.writeln("ST/Y", st.toString());
+			p.writeIValues(vals);
+		}
+		p.dedent();
+
+		p.writeEnd();
+		p.writeln();
+	}
+
+	protected void writeToAfterUnits(DcmWriter p) throws IOException {
 	}
 }

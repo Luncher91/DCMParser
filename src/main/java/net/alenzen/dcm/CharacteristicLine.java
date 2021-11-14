@@ -1,5 +1,6 @@
 package net.alenzen.dcm;
 
+import java.io.IOException;
 import java.util.List;
 
 public class CharacteristicLine extends BasicSyntaxElement {
@@ -47,5 +48,29 @@ public class CharacteristicLine extends BasicSyntaxElement {
 
 	public void setValues(List<IValue> values) {
 		this.values = values;
+	}
+
+	@Override
+	public void writeTo(DcmWriter p) throws IOException {
+		writeTo(p, "KENNLINIE");
+	}
+	
+	protected void writeTo(DcmWriter p, String keyword) throws IOException {
+		p.writeln(keyword, this.getName(), Integer.toString(sizeX));
+
+		p.indent();
+		super.writeTo(p);
+		p.writeln("EINHEIT_X", DcmWriter.toDcmString(unitX));
+		p.writeln("EINHEIT_W", DcmWriter.toDcmString(unitW));
+		writeToAfterUnits(p);
+		p.writeln("ST/X", stx);
+		p.writeIValues(values);
+		p.dedent();
+
+		p.writeEnd();
+		p.writeln();
+	}
+	
+	protected void writeToAfterUnits(DcmWriter p) throws IOException {
 	}
 }

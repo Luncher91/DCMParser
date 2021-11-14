@@ -1,5 +1,6 @@
 package net.alenzen.dcm;
 
+import java.io.IOException;
 import java.util.List;
 
 public class Distribution extends BasicSyntaxElement {
@@ -29,5 +30,19 @@ public class Distribution extends BasicSyntaxElement {
 
 	public void setStx(List<IValue> stx) {
 		this.stx = stx;
+	}
+
+	@Override
+	public void writeTo(DcmWriter p) throws IOException {
+		p.writeln("STUETZSTELLENVERTEILUNG", this.getName(), Integer.toString(sizeX));
+
+		p.indent();
+		super.writeTo(p);
+		p.writeln("EINHEIT_X", DcmWriter.toDcmString(unitX));
+		p.writeln("ST/X", stx);
+		p.dedent();
+
+		p.writeEnd();
+		p.writeln();
 	}
 }

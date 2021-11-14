@@ -2,6 +2,7 @@ package net.alenzen.dcm;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -61,5 +62,12 @@ public class ParameterTest {
 	@Test
 	void testTextValue() {
 		assertEquals("text value", file.getParameters().get(1).getValue().toString());
+	}
+	
+	@Test
+	void testBooleanValue() {
+		assertTrue(file.getParameters().get(2).getValue() instanceof BooleanValue);
+		BooleanValue b = (BooleanValue) file.getParameters().get(2).getValue();
+		assertTrue(b.isValue());
 	}
 }

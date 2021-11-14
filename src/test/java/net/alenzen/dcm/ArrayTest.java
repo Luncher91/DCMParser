@@ -3,6 +3,7 @@ package net.alenzen.dcm;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -67,6 +68,8 @@ public class ArrayTest {
 	void testTextValues() {
 		Array array = file.getArrays().get(1);
 		assertEquals(2, array.getValues().size());
+		assertTrue(array.getValues().get(0) instanceof TextValue);
+		assertTrue(array.getValues().get(1) instanceof TextValue);
 		assertEquals("1", array.getValues().get(0).toString());
 		assertEquals("2", array.getValues().get(1).toString());
 	}

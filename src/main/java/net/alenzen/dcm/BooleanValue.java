@@ -1,5 +1,7 @@
 package net.alenzen.dcm;
 
+import java.io.IOException;
+
 public class BooleanValue implements IValue {
 	private boolean value;
 
@@ -14,5 +16,10 @@ public class BooleanValue implements IValue {
 	@Override
 	public String toString() {
 		return Boolean.toString(this.value);
+	}
+
+	@Override
+	public void writeTo(DcmWriter dcmWriter) throws IOException {
+		dcmWriter.writeln("WERT", this.toString());
 	}
 }

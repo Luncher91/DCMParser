@@ -1,6 +1,8 @@
 package net.alenzen.dcm;
 
-public class Function {
+import java.io.IOException;
+
+public class Function implements IDcmWritable {
 	private String name;
 	private String version;
 	private String longname;
@@ -27,5 +29,10 @@ public class Function {
 
 	public void setLongname(String longname) {
 		this.longname = longname;
+	}
+
+	@Override
+	public void writeTo(DcmWriter dcmWriter) throws IOException {
+		dcmWriter.writeln("FKT", name, DcmWriter.toDcmString(version), DcmWriter.toDcmString(longname));
 	}
 }

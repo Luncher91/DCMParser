@@ -44,6 +44,13 @@ FESTWERT parameter2
 	TEXT "text value"
 END
 
+FESTWERT parameter3
+	LANGNAME "FESTWERT parameter 3"
+	DISPLAYNAME asam_Parameter3
+	EINHEIT_W "boolean"
+	WERT true
+END
+
 FESTWERTEBLOCK array1 2
 	LANGNAME "FESTWERTBLOCK 1"
 	EINHEIT_W "pcs"

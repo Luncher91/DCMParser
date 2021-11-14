@@ -1,8 +1,9 @@
 package net.alenzen.dcm;
 
+import java.io.IOException;
 import java.util.List;
 
-public abstract class BasicSyntaxElement {
+public abstract class BasicSyntaxElement implements IDcmWritable {
 	private String name;
 	private String longName;
 	private String displayName;
@@ -47,5 +48,13 @@ public abstract class BasicSyntaxElement {
 
 	public void setFunction(String function) {
 		this.function = function;
+	}
+	
+	@Override
+	public void writeTo(DcmWriter p) throws IOException {
+		p.writeExpressionString("LANGNAME", longName);
+		p.writeExpression("DISPLAYNAME", displayName);
+		p.writeExpressionVariants("VAR", variantValues);
+		p.writeExpression("FUNKTION", function);
 	}
 }
