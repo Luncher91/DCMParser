@@ -2,7 +2,22 @@ package net.alenzen.dcm;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
+import com.fasterxml.jackson.module.jsonSchema.JsonSchemaGenerator;
 
 public class DcmFile {
 	private List<FunctionGroup> functionGroups;
@@ -126,7 +141,7 @@ public class DcmFile {
 	public void writeTo(DcmWriter w) throws IOException {
 		w.writeln("KONSERVIERUNG_FORMAT 2.0");
 		w.writeln();
-		
+
 		w.write(functionGroups);
 		w.write(variantCodings);
 		w.write(moduleHeaders);
@@ -141,7 +156,7 @@ public class DcmFile {
 		w.write(groupCharacteristicMaps);
 		w.write(distributions);
 	}
-	
+
 	public String toDcm() {
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		DcmWriter writer = new DcmWriter(bos);
@@ -151,5 +166,126 @@ public class DcmFile {
 			throw new RuntimeException(e);
 		}
 		return new String(bos.toByteArray(), writer.getCharset());
+	}
+
+	public String toJson() throws JsonGenerationException, JsonMappingException, IOException {
+		return toJson(false, false);
+	}
+
+	public String toMinimizedJson() throws JsonGenerationException, JsonMappingException, IOException {
+		return toJson(true, false);
+	}
+
+	public String toJson(boolean excludeNull, boolean indent)
+			throws JsonGenerationException, JsonMappingException, IOException {
+		ObjectMapper objectMapper = new ObjectMapper();
+
+		if (excludeNull) {
+			objectMapper.setSerializationInclusion(Include.NON_NULL);
+		}
+
+		if (indent) {
+			objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+		}
+
+		return objectMapper.writeValueAsString(this);
+	}
+
+	public static String generateJsonSchema() throws JsonProcessingException {
+		return generateJsonSchema(false, false);
+	}
+
+	public static String generateJsonSchema(boolean excludeNull, boolean indent)
+			throws JsonMappingException, JsonProcessingException {
+		ObjectMapper mapper = new ObjectMapper();
+
+		if (excludeNull) {
+			mapper.setSerializationInclusion(Include.NON_NULL);
+		}
+
+		if (indent) {
+			mapper.enable(SerializationFeature.INDENT_OUTPUT);
+		}
+
+		JsonSchemaGenerator schemaGen = new JsonSchemaGenerator(mapper);
+		JsonSchema schema = schemaGen.generateSchema(DcmFile.class);
+		String schemaString = mapper.writeValueAsString(schema);
+
+		JsonNode node = mapper.readTree(schemaString);
+
+		HashMap<String, String> idPathMap = new HashMap<String, String>();
+		collectPathIds(node, "#", idPathMap);
+
+		replaceReferences(node, idPathMap);
+		removeNamespaces(node);
+
+		return mapper.writeValueAsString(node);
+	}
+	
+	public static DcmFile fromJson(String json) throws IOException {
+		ObjectMapper objectMapper = new ObjectMapper();
+		return objectMapper.readValue(json, DcmFile.class);
+	}
+
+	private static void replaceReferences(JsonNode node, HashMap<String, String> idPathMap) {
+		if (node.isObject()) {
+			for (Iterator<Entry<String, JsonNode>> iter = node.fields(); iter.hasNext();) {
+				Map.Entry<String, JsonNode> item = iter.next();
+				if (item.getValue().isTextual() && item.getKey().equals("$ref")) {
+					String newRef = idPathMap.get(item.getValue().asText());
+					ObjectNode nodeAsObject = (ObjectNode) node;
+					nodeAsObject.put("$ref", newRef);
+				} else {
+					replaceReferences(item.getValue(), idPathMap);
+				}
+			}
+		} else if (node.isArray()) {
+			for (Iterator<JsonNode> iter = node.iterator(); iter.hasNext();) {
+				JsonNode item = iter.next();
+				replaceReferences(item, idPathMap);
+			}
+		}
+	}
+
+	private static void removeNamespaces(JsonNode node) {
+		if (node.isObject()) {
+			for (Iterator<Entry<String, JsonNode>> iter = node.fields(); iter.hasNext();) {
+				Map.Entry<String, JsonNode> item = iter.next();
+				if (item.getValue().isTextual() && item.getKey().equals("id")) {
+					String newId = removeNamespace(item.getValue().asText());
+					ObjectNode nodeAsObject = (ObjectNode) node;
+					nodeAsObject.put("id", newId);
+				} else {
+					removeNamespaces(item.getValue());
+				}
+			}
+		} else if (node.isArray()) {
+			for (Iterator<JsonNode> iter = node.iterator(); iter.hasNext();) {
+				JsonNode item = iter.next();
+				removeNamespaces(item);
+			}
+		}
+	}
+
+	private static String removeNamespace(String asText) {
+		String[] namespacePath = asText.split(":");
+		if (namespacePath.length > 0) {
+			return namespacePath[namespacePath.length - 1];
+		} else {
+			return asText;
+		}
+	}
+
+	private static void collectPathIds(JsonNode schema, String currentPath, Map<String, String> map) {
+		if (schema.isObject()) {
+			for (Iterator<Entry<String, JsonNode>> iter = schema.fields(); iter.hasNext();) {
+				Map.Entry<String, JsonNode> item = iter.next();
+				if (item.getValue().isTextual() && item.getKey().equals("id")) {
+					map.put(item.getValue().asText(), currentPath);
+				} else {
+					collectPathIds(item.getValue(), currentPath + "/" + item.getKey(), map);
+				}
+			}
+		}
 	}
 }

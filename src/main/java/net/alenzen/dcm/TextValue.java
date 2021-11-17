@@ -6,6 +6,13 @@ import java.util.List;
 public class TextValue implements IValue {
 	private String value;
 
+	public TextValue(String asText) {
+		this.value = asText;
+	}
+
+	public TextValue() {
+	}
+
 	public String getValue() {
 		return value;
 	}

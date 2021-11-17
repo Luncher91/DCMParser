@@ -370,7 +370,7 @@ public class DcmVisitor extends dcmParserBaseVisitor<Object> {
 	@Override
 	public Object visitString_value_list_exp(String_value_list_expContext ctx) {
 		List<String> values = visitMultipleOpt(ctx.string_exp(), String.class);
-		return values.stream().map(s -> ValueFactory.fromString(s)).collect(Collectors.toList());
+		return values.stream().map(s -> new TextValue(s)).collect(Collectors.toList());
 	}
 
 	@Override
@@ -483,7 +483,7 @@ public class DcmVisitor extends dcmParserBaseVisitor<Object> {
 		}
 
 		if (ctx.string_value_exp() != null) {
-			return ValueFactory.fromString(visitString(ctx.string_value_exp().string_exp()));
+			return new TextValue(visitString(ctx.string_value_exp().string_exp()));
 		}
 
 		log.log(ctx.getStart().getLine(), ctx.getStart().getCharPositionInLine(),
@@ -494,12 +494,12 @@ public class DcmVisitor extends dcmParserBaseVisitor<Object> {
 	@Override
 	public Object visitValue(ValueContext ctx) {
 		if (ctx.TRUE() != null) {
-			return ValueFactory.fromBoolean(true);
+			return new BooleanValue(true);
 		} else if (ctx.FALSE() != null) {
-			return ValueFactory.fromBoolean(false);
+			return new BooleanValue(false);
 		}
 
-		return ValueFactory.fromNumber(ctx.getText());
+		return new NumberValue(ctx.getText());
 	}
 
 	@Override

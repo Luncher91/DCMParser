@@ -5,6 +5,13 @@ import java.io.IOException;
 public class BooleanValue implements IValue {
 	private boolean value;
 
+	public BooleanValue(boolean asBoolean) {
+		this.value = asBoolean;
+	}
+
+	public BooleanValue() {
+	}
+
 	public boolean isValue() {
 		return value;
 	}
