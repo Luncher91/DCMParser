@@ -25,4 +25,11 @@ hs_err_pid*
 # generated files
 target/
 
+# macos files
 .DS_Store
+
+# ignore eclipse files
+.project
+.classpath
+.settings
+.metadata

@@ -26,7 +26,7 @@ public class DcmWriter {
 	}
 
 	public void writeExpression(String name, String value) throws IOException {
-		if (value != null && !value.isBlank()) {
+		if (value != null && !value.trim().isEmpty()) {
 			writeIndentation();
 			write(name);
 			write(" ");
@@ -91,7 +91,8 @@ public class DcmWriter {
 	}
 	
 	public void writeIndentation() throws IOException {
-		write(indentationString.repeat(indentationDepth));
+		for(int i = 0; i < indentationDepth; i++) 
+			write(indentationString);
 	}
 	
 	public void writeln(String ... strings) throws IOException {
