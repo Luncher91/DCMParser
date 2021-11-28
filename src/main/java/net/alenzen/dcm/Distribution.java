@@ -5,8 +5,9 @@ import java.util.List;
 
 public class Distribution extends BasicSyntaxElement {
 	private int sizeX;
+	private List<String> unitXComments;
 	private String unitX;
-	private List<IValue> stx;
+	private List<Value> stx;
 
 	public int getSizeX() {
 		return sizeX;
@@ -24,25 +25,33 @@ public class Distribution extends BasicSyntaxElement {
 		this.unitX = unitX;
 	}
 
-	public List<IValue> getStx() {
+	public List<Value> getStx() {
 		return stx;
 	}
 
-	public void setStx(List<IValue> stx) {
+	public void setStx(List<Value> stx) {
 		this.stx = stx;
+	}
+
+	public List<String> getUnitXComments() {
+		return unitXComments;
+	}
+
+	public void setUnitXComments(List<String> unitXComments) {
+		this.unitXComments = unitXComments;
 	}
 
 	@Override
 	public void writeTo(DcmWriter p) throws IOException {
-		p.writeln("STUETZSTELLENVERTEILUNG", this.getName(), Integer.toString(sizeX));
+		super.writeBeginning(p, "STUETZSTELLENVERTEILUNG", Integer.toString(sizeX));
 
 		p.indent();
-		super.writeTo(p);
+		super.writeBodyTo(p);
+		p.writeln(unitXComments);
 		p.writeln("EINHEIT_X", DcmWriter.toDcmString(unitX));
 		p.writeln("ST/X", stx);
 		p.dedent();
 
-		p.writeEnd();
-		p.writeln();
+		super.writeEnd(p);
 	}
 }

@@ -6,8 +6,9 @@ import java.util.List;
 public class Matrix extends BasicSyntaxElement {
 	private int sizeX;
 	private int sizeY;
+	private List<String> unitWComments;
 	private String unitW;
-	private List<List<IValue>> values;
+	private List<List<Value>> values;
 
 	public int getSizeX() {
 		return sizeX;
@@ -33,27 +34,35 @@ public class Matrix extends BasicSyntaxElement {
 		this.unitW = unitW;
 	}
 
-	public List<List<IValue>> getValues() {
+	public List<List<Value>> getValues() {
 		return values;
 	}
 
-	public void setValues(List<List<IValue>> values) {
+	public void setValues(List<List<Value>> values) {
 		this.values = values;
 	}
-	
+
+	public List<String> getUnitWComments() {
+		return unitWComments;
+	}
+
+	public void setUnitWComments(List<String> unitWComments) {
+		this.unitWComments = unitWComments;
+	}
+
 	@Override
 	public void writeTo(DcmWriter p) throws IOException {
-		p.writeln("FESTWERTEBLOCK", this.getName(), Integer.toString(sizeX), "@", Integer.toString(sizeY));
+		super.writeBeginning(p, "FESTWERTEBLOCK", Integer.toString(sizeX), "@", Integer.toString(sizeY));
 
 		p.indent();
-		super.writeTo(p);
+		super.writeBodyTo(p);
+		p.writeln(unitWComments);
 		p.writeln("EINHEIT_W", DcmWriter.toDcmString(unitW));
-		for (List<IValue> vals : values) {
-			p.writeIValues(vals);
+		for (List<Value> vals : values) {
+			p.writeValues(vals);
 		}
 		p.dedent();
 
-		p.writeEnd();
-		p.writeln();
+		super.writeEnd(p);
 	}
 }

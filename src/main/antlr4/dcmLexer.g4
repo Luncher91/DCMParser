@@ -7,7 +7,7 @@ lexer grammar dcmLexer;
 SSTX : {getCharPositionInLine() == 0}? WS* '*SSTX' .*? NEWLINE;
 SSTY : {getCharPositionInLine() == 0}? WS* '*SSTY' .*? NEWLINE;
 
-COMMENT : {getCharPositionInLine() == 0}? WS* ('!' | '.' | '*') .*? NEWLINE -> skip;
+COMMENT : {getCharPositionInLine() == 0}? WS* ('!' | '.' | '*') .*? NEWLINE;
 
 WS : (' ' | '\t') ->  skip;
 NEWLINE : ('\r'? '\n' | '\r')+;

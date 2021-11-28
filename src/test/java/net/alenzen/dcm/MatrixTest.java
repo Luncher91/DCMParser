@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -70,16 +69,16 @@ public class MatrixTest {
 		assertEquals(2, matrix.getValues().get(2).size());
 		
 		// row 1
-		assertEquals(new BigDecimal("11"), matrix.getValues().get(0).get(0));
-		assertEquals(new BigDecimal("12"), matrix.getValues().get(0).get(1));
+		assertEquals(new NumberValue("11", "* comment 12"), matrix.getValues().get(0).get(0));
+		assertEquals(new NumberValue("12"), matrix.getValues().get(0).get(1));
 		
 		// row 2
-		assertEquals(new BigDecimal("21"), matrix.getValues().get(1).get(0));
-		assertEquals(new BigDecimal("22"), matrix.getValues().get(1).get(1));
+		assertEquals(new NumberValue("21", "* comment 12"), matrix.getValues().get(1).get(0));
+		assertEquals(new NumberValue("22"), matrix.getValues().get(1).get(1));
 		
 		// row 3
-		assertEquals(new BigDecimal("31"), matrix.getValues().get(2).get(0));
-		assertEquals(new BigDecimal("32"), matrix.getValues().get(2).get(1));
+		assertEquals(new NumberValue("31"), matrix.getValues().get(2).get(0));
+		assertEquals(new NumberValue("32"), matrix.getValues().get(2).get(1));
 	}
 	
 	@Test
@@ -101,5 +100,11 @@ public class MatrixTest {
 		// row 3
 		assertEquals("31", matrix.getValues().get(2).get(0).toString());
 		assertEquals("32", matrix.getValues().get(2).get(1).toString());
+	}
+	
+	@Test
+	void testComments() {
+		assertEquals("* comment 12", matrix.getComments().get(0));
+		assertEquals("* comment 12", matrix.getEndComments().get(0));
 	}
 }

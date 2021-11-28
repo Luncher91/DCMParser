@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -60,8 +59,8 @@ public class ArrayTest {
 	@Test
 	void testValues() {
 		assertEquals(2, array.getValues().size());
-		assertEquals(new BigDecimal("1"), array.getValues().get(0));
-		assertEquals(new BigDecimal("2"), array.getValues().get(1));
+		assertEquals(new NumberValue("1", "* comment 12"), array.getValues().get(0));
+		assertEquals(new NumberValue("2"), array.getValues().get(1));
 	}
 	
 	@Test
@@ -72,5 +71,11 @@ public class ArrayTest {
 		assertTrue(array.getValues().get(1) instanceof TextValue);
 		assertEquals("1", array.getValues().get(0).toString());
 		assertEquals("2", array.getValues().get(1).toString());
+	}
+	
+	@Test
+	void testComments() {
+		assertEquals("* comment 12", array.getComments().get(0));
+		assertEquals("* comment 12", array.getEndComments().get(0));
 	}
 }

@@ -6,12 +6,15 @@ import java.util.List;
 public class CharacteristicMap extends BasicSyntaxElement {
 	private int sizeX;
 	private int sizeY;
+	private List<String> unitXComments;
 	private String unitX;
+	private List<String> unitYComments;
 	private String unitY;
+	private List<String> unitWComments;
 	private String unitW;
-	private List<IValue> stx;
-	private List<IValue> sty;
-	private List<List<IValue>> values;
+	private List<Value> stx;
+	private List<Value> sty;
+	private List<List<Value>> values;
 
 	public int getSizeX() {
 		return sizeX;
@@ -53,28 +56,52 @@ public class CharacteristicMap extends BasicSyntaxElement {
 		this.unitW = unitW;
 	}
 
-	public List<IValue> getStx() {
+	public List<Value> getStx() {
 		return stx;
 	}
 
-	public void setStx(List<IValue> stx) {
+	public void setStx(List<Value> stx) {
 		this.stx = stx;
 	}
 
-	public List<IValue> getSty() {
+	public List<Value> getSty() {
 		return sty;
 	}
 
-	public void setSty(List<IValue> sty) {
+	public void setSty(List<Value> sty) {
 		this.sty = sty;
 	}
 
-	public List<List<IValue>> getValues() {
+	public List<List<Value>> getValues() {
 		return values;
 	}
 
-	public void setValues(List<List<IValue>> values) {
+	public void setValues(List<List<Value>> values) {
 		this.values = values;
+	}
+
+	public List<String> getUnitXComments() {
+		return unitXComments;
+	}
+
+	public void setUnitXComments(List<String> unitXComments) {
+		this.unitXComments = unitXComments;
+	}
+
+	public List<String> getUnitYComments() {
+		return unitYComments;
+	}
+
+	public void setUnitYComments(List<String> unitYComments) {
+		this.unitYComments = unitYComments;
+	}
+
+	public List<String> getUnitWComments() {
+		return unitWComments;
+	}
+
+	public void setUnitWComments(List<String> unitWComments) {
+		this.unitWComments = unitWComments;
 	}
 
 	@Override
@@ -83,25 +110,28 @@ public class CharacteristicMap extends BasicSyntaxElement {
 	}
 	
 	protected void writeTo(DcmWriter p, String keyword) throws IOException {
-		p.writeln(keyword, this.getName(), Integer.toString(sizeX), Integer.toString(sizeY));
+		super.writeBeginning(p, keyword, Integer.toString(sizeX), Integer.toString(sizeY));
 
 		p.indent();
-		super.writeTo(p);
+		super.writeBodyTo(p);
+		p.writeln(unitXComments);
 		p.writeln("EINHEIT_X", DcmWriter.toDcmString(unitX));
+		p.writeln(unitYComments);
 		p.writeln("EINHEIT_Y", DcmWriter.toDcmString(unitY));
+		p.writeln(unitWComments);
 		p.writeln("EINHEIT_W", DcmWriter.toDcmString(unitW));
 		writeToAfterUnits(p);
 		p.writeln("ST/X", stx);
 		for(int i = 0; i < values.size(); i++) {
-			List<IValue> vals = values.get(i);
-			IValue st = sty.get(i);
+			List<Value> vals = values.get(i);
+			Value st = sty.get(i);
+			p.writeln(st.getComments());
 			p.writeln("ST/Y", st.toString());
-			p.writeIValues(vals);
+			p.writeValues(vals);
 		}
 		p.dedent();
 
-		p.writeEnd();
-		p.writeln();
+		super.writeEnd(p);
 	}
 
 	protected void writeToAfterUnits(DcmWriter p) throws IOException {

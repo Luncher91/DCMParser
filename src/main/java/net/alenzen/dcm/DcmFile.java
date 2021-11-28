@@ -20,6 +20,7 @@ import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
 import com.fasterxml.jackson.module.jsonSchema.JsonSchemaGenerator;
 
 public class DcmFile {
+	private List<String> comments;
 	private List<FunctionGroup> functionGroups;
 	private List<VariantCoding> variantCodings;
 	private List<ModuleHeader> moduleHeaders;
@@ -33,6 +34,14 @@ public class DcmFile {
 	private List<GroupCharacteristicLine> groupCharacteristicLines;
 	private List<GroupCharacteristicMap> groupCharacteristicMaps;
 	private List<Distribution> distributions;
+
+	public List<String> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<String> comments) {
+		this.comments = comments;
+	}
 
 	public List<FunctionGroup> getFunctionGroups() {
 		return functionGroups;
@@ -139,6 +148,7 @@ public class DcmFile {
 	}
 
 	public void writeTo(DcmWriter w) throws IOException {
+		w.writeln(comments);
 		w.writeln("KONSERVIERUNG_FORMAT 2.0");
 		w.writeln();
 

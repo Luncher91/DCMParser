@@ -2,7 +2,7 @@ package net.alenzen.dcm;
 
 import java.io.IOException;
 
-public class BooleanValue implements IValue {
+public class BooleanValue extends Value {
 	private boolean value;
 
 	public BooleanValue(boolean asBoolean) {
@@ -27,6 +27,7 @@ public class BooleanValue implements IValue {
 
 	@Override
 	public void writeTo(DcmWriter dcmWriter) throws IOException {
+		dcmWriter.writeln(comments);
 		dcmWriter.writeln("WERT", this.toString());
 	}
 }

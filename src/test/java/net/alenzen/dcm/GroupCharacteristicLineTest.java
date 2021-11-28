@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -70,15 +69,15 @@ public class GroupCharacteristicLineTest {
 	@Test
 	void testStx() {
 		assertEquals(2, line.getStx().size());
-		assertEquals(new BigDecimal("3"), line.getStx().get(0));
-		assertEquals(new BigDecimal("4"), line.getStx().get(1));
+		assertEquals(new NumberValue("3"), line.getStx().get(0));
+		assertEquals(new NumberValue("4"), line.getStx().get(1));
 	}
 	
 	@Test
 	void testValues() {
 		assertEquals(2, line.getValues().size());
-		assertEquals(new BigDecimal("1"), line.getValues().get(0));
-		assertEquals(new BigDecimal("2"), line.getValues().get(1));
+		assertEquals(new NumberValue("1"), line.getValues().get(0));
+		assertEquals(new NumberValue("2"), line.getValues().get(1));
 	}
 	
 	@Test
@@ -87,5 +86,10 @@ public class GroupCharacteristicLineTest {
 		assertEquals(2, line.getValues().size());
 		assertEquals("1", line.getValues().get(0).toString());
 		assertEquals("2", line.getValues().get(1).toString());
+	}
+	
+	@Test
+	void testComments() {
+		assertEquals("* comment 12", line.getSstxComments().get(0));
 	}
 }

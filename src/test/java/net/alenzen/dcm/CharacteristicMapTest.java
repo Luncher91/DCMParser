@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -75,16 +74,16 @@ public class CharacteristicMapTest {
 	@Test
 	void testStx() {
 		assertEquals(2, m.getStx().size());
-		assertEquals(new BigDecimal("3"), m.getStx().get(0));
-		assertEquals(new BigDecimal("4"), m.getStx().get(1));
+		assertEquals(new NumberValue("3"), m.getStx().get(0));
+		assertEquals(new NumberValue("4"), m.getStx().get(1));
 	}
 	
 	@Test
 	void testSty() {
 		assertEquals(3, m.getSty().size());
-		assertEquals(new BigDecimal("5"), m.getSty().get(0));
-		assertEquals(new BigDecimal("6"), m.getSty().get(1));
-		assertEquals(new BigDecimal("7"), m.getSty().get(2));
+		assertEquals(new NumberValue("5", "* comment 12"), m.getSty().get(0));
+		assertEquals(new NumberValue("6", "* comment 12"), m.getSty().get(1));
+		assertEquals(new NumberValue("7"), m.getSty().get(2));
 	}
 
 	@Test
@@ -95,16 +94,16 @@ public class CharacteristicMapTest {
 		assertEquals(2, m.getValues().get(2).size());
 		
 		// row 1
-		assertEquals(new BigDecimal("11"), m.getValues().get(0).get(0));
-		assertEquals(new BigDecimal("12"), m.getValues().get(0).get(1));
+		assertEquals(new NumberValue("11"), m.getValues().get(0).get(0));
+		assertEquals(new NumberValue("12"), m.getValues().get(0).get(1));
 		
 		// row 2
-		assertEquals(new BigDecimal("21"), m.getValues().get(1).get(0));
-		assertEquals(new BigDecimal("22"), m.getValues().get(1).get(1));
+		assertEquals(new NumberValue("21"), m.getValues().get(1).get(0));
+		assertEquals(new NumberValue("22"), m.getValues().get(1).get(1));
 		
 		// row 3
-		assertEquals(new BigDecimal("31"), m.getValues().get(2).get(0));
-		assertEquals(new BigDecimal("32"), m.getValues().get(2).get(1));
+		assertEquals(new NumberValue("31"), m.getValues().get(2).get(0));
+		assertEquals(new NumberValue("32"), m.getValues().get(2).get(1));
 	}
 	
 	@Test
@@ -126,5 +125,11 @@ public class CharacteristicMapTest {
 		// row 3
 		assertEquals("31", m.getValues().get(2).get(0).toString());
 		assertEquals("32", m.getValues().get(2).get(1).toString());
+	}
+	
+	@Test
+	void testComments() {
+		assertEquals("* comment 12", m.getComments().get(0));
+		assertEquals("* comment 12", m.getEndComments().get(0));
 	}
 }

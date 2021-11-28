@@ -27,20 +27,27 @@ public class ModuleHeaderTest {
 	
 	@Test
 	void testLineNumbers() {
-		assertEquals(3, moduleHeader.getText().size());
+		assertEquals(2, moduleHeader.getLines().size());
 	}
 	
 	@Test
 	void testLines() {
-		assertEquals("line 1", moduleHeader.getText().get(0));
-		assertEquals("line 2", moduleHeader.getText().get(1));
-		assertEquals("line 3", moduleHeader.getText().get(2));
+		assertEquals("line 1", moduleHeader.getText());
+		assertEquals("line 2", moduleHeader.getLines().get(0).getText());
+		assertEquals("line 3", moduleHeader.getLines().get(1).getText());
 	}
 	
 	@Test
 	void testSecondModuleHeader() {
 		ModuleHeader secondHeader = file.getModuleHeaders().get(1);
 		assertEquals("iAmTheSecondHead", secondHeader.getName());
-		assertEquals(2, secondHeader.getText().size());
+		assertEquals(1, secondHeader.getLines().size());
+	}
+	
+	@Test
+	void testComments() {
+		assertEquals(1, moduleHeader.getComments().size());
+		assertEquals("* comment 1", moduleHeader.getComments().get(0));
+		assertEquals("*comment 2", moduleHeader.getLines().get(0).getComments().get(0));
 	}
 }

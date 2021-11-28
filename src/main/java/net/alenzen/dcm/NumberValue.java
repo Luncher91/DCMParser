@@ -2,78 +2,59 @@ package net.alenzen.dcm;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.math.MathContext;
+import java.util.Arrays;
+import java.util.Objects;
 
-public class NumberValue extends BigDecimal implements IValue {
-	private static final long serialVersionUID = -2988465617491331558L;
+public class NumberValue extends Value {
+	private BigDecimal value;
 
-	public NumberValue(BigInteger unscaledVal, int scale, MathContext mc) {
-		super(unscaledVal, scale, mc);
+	public NumberValue(String valueAsString, String... comments) {
+		if (comments.length > 0) {
+			this.setComments(Arrays.asList(comments));
+		}
+		this.value = new BigDecimal(valueAsString);
 	}
 
-	public NumberValue(BigInteger unscaledVal, int scale) {
-		super(unscaledVal, scale);
+	public NumberValue(int i) {
+		this.value = new BigDecimal(i);
+	}
+	
+	public NumberValue() {
 	}
 
-	public NumberValue(BigInteger val, MathContext mc) {
-		super(val, mc);
+	public BigDecimal getValue() {
+		return value;
 	}
 
-	public NumberValue(BigInteger val) {
-		super(val);
+	public void setValue(BigDecimal value) {
+		this.value = value;
 	}
 
-	public NumberValue(char[] in, int offset, int len, MathContext mc) {
-		super(in, offset, len, mc);
-	}
-
-	public NumberValue(char[] in, int offset, int len) {
-		super(in, offset, len);
-	}
-
-	public NumberValue(char[] in, MathContext mc) {
-		super(in, mc);
-	}
-
-	public NumberValue(char[] in) {
-		super(in);
-	}
-
-	public NumberValue(double val, MathContext mc) {
-		super(val, mc);
-	}
-
-	public NumberValue(double val) {
-		super(val);
-	}
-
-	public NumberValue(int val, MathContext mc) {
-		super(val, mc);
-	}
-
-	public NumberValue(int val) {
-		super(val);
-	}
-
-	public NumberValue(long val, MathContext mc) {
-		super(val, mc);
-	}
-
-	public NumberValue(long val) {
-		super(val);
-	}
-
-	public NumberValue(String val, MathContext mc) {
-		super(val, mc);
-	}
-
-	public NumberValue(String val) {
-		super(val);
+	@Override
+	public String toString() {
+		return getValue().toString();
 	}
 
 	@Override
 	public void writeTo(DcmWriter dcmWriter) throws IOException {
+		dcmWriter.writeln(comments);
 		dcmWriter.writeln("WERT", this.toString());
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		if (!super.equals(o))
+			return false;
+		NumberValue project = (NumberValue) o;
+		return Objects.equals(value, project.value);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(super.hashCode(), value);
 	}
 }

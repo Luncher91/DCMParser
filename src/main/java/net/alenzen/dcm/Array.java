@@ -5,8 +5,9 @@ import java.util.List;
 
 public class Array extends BasicSyntaxElement {
 	private int sizeX;
+	private List<String> unitWComments;
 	private String unitW;
-	private List<IValue> values;
+	private List<Value> values;
 
 	public int getSizeX() {
 		return sizeX;
@@ -24,25 +25,33 @@ public class Array extends BasicSyntaxElement {
 		this.unitW = unitW;
 	}
 
-	public List<IValue> getValues() {
+	public List<Value> getValues() {
 		return values;
 	}
 
-	public void setValues(List<IValue> values) {
+	public void setValues(List<Value> values) {
 		this.values = values;
+	}
+
+	public List<String> getUnitWComments() {
+		return unitWComments;
+	}
+
+	public void setUnitWComments(List<String> unitWComments) {
+		this.unitWComments = unitWComments;
 	}
 
 	@Override
 	public void writeTo(DcmWriter p) throws IOException {
-		p.writeln("FESTWERTEBLOCK", this.getName(), Integer.toString(sizeX));
+		super.writeBeginning(p, "FESTWERTEBLOCK", Integer.toString(sizeX));
 
 		p.indent();
-		super.writeTo(p);
+		super.writeBodyTo(p);
+		p.writeln(unitWComments);
 		p.writeln("EINHEIT_W", DcmWriter.toDcmString(unitW));
-		p.writeIValues(values);
+		p.writeValues(values);
 		p.dedent();
 
-		p.writeEnd();
-		p.writeln();
+		super.writeEnd(p);
 	}
 }

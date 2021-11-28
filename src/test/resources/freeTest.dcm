@@ -4,35 +4,56 @@
 
 KONSERVIERUNG_FORMAT 2.0
 
+* comment number one
+
+* second line
 FUNKTIONEN
+	* comment
 	FKT nameOfTheFirstFunction "version 42" "long----name"
+	* comment
 	FKT nameOfTheSecondFunction "12.4" "longerrrrrrrrrr name"
 	FKT nameOfTheFifthFunction "12.4" "longerrrrrrrrrr name"
+* comment
 END
+
 
 FUNKTIONEN
 	FKT nameOfTheThirdFunction "version 42" "long----name"
 	FKT nameOfTheFourthFunction "12.4" "longerrrrrrrrrr name"
 END
 
+* comment
+* comment
 VARIANTENKODIERUNG
+	* comment
 	KRITERIUM bed1 1 2.0 .3 4E5 -7 true false
 	KRITERIUM criterion2 1 2.0 .3 4E5 -7 true false
+* comment
 END
 
+* comment 1
 MODULKOPF iAmTheHead "line 1"
+*comment 2
 MODULKOPF "line 2"
 MODULKOPF "line 3"
 MODULKOPF iAmTheSecondHead "line 1"
 MODULKOPF "line 2"
 
+* comment 12
 FESTWERT parameter1
+	* comment 12
 	LANGNAME "FESTWERT parameter 1"
+	* comment 12
 	DISPLAYNAME asam_Parameter1
+	* comment 12
 	VAR var1=1.0
+	* comment 12
 	FUNKTION nameOfTheFirstFunction
+	* comment 12
 	EINHEIT_W "m/s²"
+	* comment 12
 	WERT 7.123
+* comment 12
 END
 
 FESTWERT parameter2
@@ -41,6 +62,7 @@ FESTWERT parameter2
 	VAR var1=3.0
 	FUNKTION nameOfTheFirstFunction
 	EINHEIT_W "m/s²"
+	* comment 12
 	TEXT "text value"
 END
 
@@ -48,43 +70,58 @@ FESTWERT parameter3
 	LANGNAME "FESTWERT parameter 3"
 	DISPLAYNAME asam_Parameter3
 	EINHEIT_W "boolean"
+	* comment 12
 	WERT true
 END
 
+* comment 12
 FESTWERTEBLOCK array1 2
 	LANGNAME "FESTWERTBLOCK 1"
 	EINHEIT_W "pcs"
+	* comment 12
 	WERT 1 2
+* comment 12
 END
 
 FESTWERTEBLOCK array2 2
 	LANGNAME "FESTWERTBLOCK 2"
 	EINHEIT_W "pcs"
+	* comment 12
 	TEXT "1" "2"
 END
 
+* comment 12
 FESTWERTEBLOCK matrix1 2 @ 3
 	LANGNAME "FESTWERTBLOCK 3"
 	EINHEIT_W "pcs"
+	* comment 12
 	WERT 11 12
+	* comment 12
 	WERT 21 22
 	WERT 31 32
+* comment 12
 END
 
 FESTWERTEBLOCK matrix2 2 @ 3
 	LANGNAME "FESTWERTBLOCK 4"
 	EINHEIT_W "pcs"
+	* comment 12
 	TEXT "11" "12"
 	TEXT "21" "22"
+	* comment 12
 	TEXT "31" "32"
 END
 
+* comment 12
 KENNLINIE charLine1 2
 	LANGNAME "KENNLINIE 1"
+	* comment 12
 	EINHEIT_X "1/pcs"
 	EINHEIT_W "pcs"
+	* comment 12
 	ST/X 3 4
 	WERT 1 2
+* comment 12
 END
 
 KENNLINIE charLine2 2
@@ -95,18 +132,23 @@ KENNLINIE charLine2 2
 	TEXT "1" "2"
 END
 
+* comment 12
 KENNFELD map1 2 3
 	LANGNAME "KENNFELD 1"
 	EINHEIT_X "1/pcs"
+	* comment 12
 	EINHEIT_Y "°C"
 	EINHEIT_W "pcs"
 	ST/X 3 4
+	* comment 12
 	ST/Y 5
 	WERT 11 12
+	* comment 12
 	ST/Y 6
 	WERT 21 22
 	ST/Y 7
 	WERT 31 32
+* comment 12
 END
 
 KENNFELD map2 2 3
@@ -123,12 +165,14 @@ KENNFELD map2 2 3
 	TEXT "31" "32"
 END
 
+* comment 12
 FESTKENNLINIE fixedCharLine1 2
 	LANGNAME "FESTKENNLINIE 1"
 	EINHEIT_X "1/pcs"
 	EINHEIT_W "pcs"
 	ST/X 3 4
 	WERT 1 2
+* comment 12
 END
 
 FESTKENNLINIE fixedCharLine2 2
@@ -139,9 +183,11 @@ FESTKENNLINIE fixedCharLine2 2
 	TEXT "1" "2"
 END
 
+* comment 12
 FESTKENNFELD fixedMap1 2 3
 	LANGNAME "FESTKENNFELD 1"
 	EINHEIT_X "1/pcs"
+	* comment 12
 	EINHEIT_Y "°C"
 	EINHEIT_W "pcs"
 	ST/X 3 4
@@ -151,6 +197,7 @@ FESTKENNFELD fixedMap1 2 3
 	WERT 21 22
 	ST/Y 7
 	WERT 31 32
+* comment 12
 END
 
 FESTKENNFELD fixedMap2 2 3
@@ -171,6 +218,7 @@ GRUPPENKENNLINIE groupCharLine1 2
 	LANGNAME "GRUPPENKENNLINIE 1"
 	EINHEIT_X "1/pcs"
 	EINHEIT_W "pcs"
+	* comment 12
 	*SSTX distr/bla hello
 	ST/X 3 4
 	WERT 1 2
@@ -191,6 +239,7 @@ GRUPPENKENNFELD groupMap1 2 3
 	EINHEIT_Y "°C"
 	EINHEIT_W "pcs"
 	*SSTX distr/bla hello
+	* comment 12
 	*SSTY distr/bla hello2
 	ST/X 3 4
 	ST/Y 5

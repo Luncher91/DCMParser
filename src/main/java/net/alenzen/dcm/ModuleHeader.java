@@ -3,9 +3,9 @@ package net.alenzen.dcm;
 import java.io.IOException;
 import java.util.List;
 
-public class ModuleHeader implements IDcmWritable {
+public class ModuleHeader extends ModuleHeaderLine implements IDcmWritable {
 	private String name;
-	private List<String> text;
+	private List<ModuleHeaderLine> lines;
 
 	public String getName() {
 		return name;
@@ -15,24 +15,22 @@ public class ModuleHeader implements IDcmWritable {
 		this.name = name;
 	}
 
-	public List<String> getText() {
-		return text;
+	public List<ModuleHeaderLine> getLines() {
+		return lines;
 	}
 
-	public void setText(List<String> text) {
-		this.text = text;
+	public void setLines(List<ModuleHeaderLine> lines) {
+		this.lines = lines;
 	}
 
 	@Override
 	public void writeTo(DcmWriter dcmWriter) throws IOException {
-		if(text == null || text.size() == 0) {
-			return;
-		}
+		dcmWriter.writeln(this.getComments());
+		dcmWriter.writeln("MODULKOPF", name, DcmWriter.toDcmString(this.getText()));
 		
-		dcmWriter.writeln("MODULKOPF", name, DcmWriter.toDcmString(text.get(0)));
-		
-		for(int i = 1; i < text.size(); i++) {
-			dcmWriter.writeln("MODULKOPF", DcmWriter.toDcmString(text.get(i)));
+		for(int i = 0; i < this.lines.size(); i++) {
+			dcmWriter.writeln(this.lines.get(i).getComments());
+			dcmWriter.writeln("MODULKOPF", DcmWriter.toDcmString(this.lines.get(i).getText()));
 		}
 		
 		dcmWriter.writeln();

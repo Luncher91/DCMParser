@@ -34,9 +34,9 @@ public class DcmWriter {
 			writeln();
 		}
 	}
-	
+
 	public void writeExpressionString(String name, String value) throws IOException {
-		if(value != null) {
+		if (value != null) {
 			writeIndentation();
 			write(name);
 			write(" ");
@@ -44,37 +44,42 @@ public class DcmWriter {
 			writeln();
 		}
 	}
-	
+
 	public static String toDcmString(String s) {
 		return "\"" + escapeStringCharacters(s) + "\"";
 	}
-	
+
 	public static String escapeStringCharacters(String str) {
 		String replacedStr = str;
 		replacedStr = replacedStr.replaceAll("\\\\", "\\\\\\\\");
 		// escape "
 		replacedStr = replacedStr.replaceAll("\"", "\\\\\"");
-		
+
 		// escape '
 		replacedStr = replacedStr.replaceAll("'", "\\\\'");
 
 		// escape \n
 		replacedStr = replacedStr.replaceAll("\n", "\\\\n");
-		
+
 		// escape \r
 		replacedStr = replacedStr.replaceAll("\r", "\\\\r");
-		
+
 		// escape \t
 		replacedStr = replacedStr.replaceAll("\t", "\\\\t");
-		
+
 		return replacedStr;
 	}
-	
+
 	public void writeExpressionVariants(String name, List<VariantValue> varValues) throws IOException {
-		if(varValues != null && !varValues.isEmpty()) {
+		if (varValues != null && !varValues.isEmpty()) {
+			VariantValue first = varValues.get(0);
+			if (first != null) {
+				writeln(first.getComments());
+			}
+
 			writeIndentation();
 			write(name);
-			for(VariantValue v : varValues) {
+			for (VariantValue v : varValues) {
 				write(" ");
 				write(v.getName());
 				write("=");
@@ -83,54 +88,66 @@ public class DcmWriter {
 			writeln();
 		}
 	}
-	
+
 	public void writeEnd() throws IOException {
 		writeIndentation();
 		write("END");
 		writeln();
 	}
-	
+
 	public void writeIndentation() throws IOException {
-		for(int i = 0; i < indentationDepth; i++) 
+		for (int i = 0; i < indentationDepth; i++)
 			write(indentationString);
 	}
-	
-	public void writeln(String ... strings) throws IOException {
+
+	public void writeln(String... strings) throws IOException {
 		writeIndentation();
 		write(String.join(" ", strings));
 		writeln();
 	}
-	
-	public <T extends IValue> void writeln(String prefix, List<T> objects) throws IOException {
+
+	public <T extends Value> void writeln(String prefix, List<T> objects) throws IOException {
+		if (!objects.isEmpty()) {
+			T v = objects.get(0);
+			if (v != null) {
+				writeln(v.getComments());
+			}
+		}
+
 		writeIndentation();
 		write(prefix);
-		for(IValue o : objects) {
+		for (Value o : objects) {
 			write(" ");
 			write(o.toString());
 		}
 		writeln();
 	}
-	
+
 	private void write(String s) throws IOException {
 		os.write(s.getBytes(getCharset()));
 	}
-	
+
 	public void write(IDcmWritable e) throws IOException {
 		e.writeTo(this);
 	}
-	
-	public <T extends IValue> void writeIValues(List<T> l) throws IOException {
-		if(l.stream().anyMatch(e -> e instanceof TextValue)) {
+
+	public <T extends Value> void writeValues(List<T> l) throws IOException {
+		if (l.stream().anyMatch(e -> e instanceof TextValue)) {
+			if (!l.isEmpty()) {
+				writeln(l.get(0).getComments());
+			}
+
 			writeln(TextValue.listToElementArray(l));
 		} else {
 			writeln("WERT", l);
 		}
 	}
-	
+
 	public <T extends IDcmWritable> void write(List<T> l) throws IOException {
-		if(l == null) return;
-		
-		for(T e : l) {
+		if (l == null)
+			return;
+
+		for (T e : l) {
 			write(e);
 		}
 	}
@@ -158,7 +175,7 @@ public class DcmWriter {
 	public void indent() {
 		indentationDepth++;
 	}
-	
+
 	public void dedent() {
 		indentationDepth--;
 	}
@@ -177,5 +194,15 @@ public class DcmWriter {
 
 	public void setLineBreak(String lineBreak) {
 		this.lineBreak = lineBreak;
+	}
+
+	public void writeln(List<String> comments) throws IOException {
+		if (comments == null) {
+			return;
+		}
+
+		for (String c : comments) {
+			writeln(c);
+		}
 	}
 }

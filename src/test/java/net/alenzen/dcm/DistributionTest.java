@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -60,7 +59,7 @@ public class DistributionTest {
 	@Test
 	void testStx() {
 		assertEquals(2, distr.getStx().size());
-		assertEquals(new BigDecimal("3"), distr.getStx().get(0));
-		assertEquals(new BigDecimal("4"), distr.getStx().get(1));
+		assertEquals(new NumberValue("3"), distr.getStx().get(0));
+		assertEquals(new NumberValue("4"), distr.getStx().get(1));
 	}
 }

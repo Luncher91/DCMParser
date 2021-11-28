@@ -3,7 +3,7 @@ package net.alenzen.dcm;
 import java.io.IOException;
 import java.util.List;
 
-public class TextValue implements IValue {
+public class TextValue extends Value {
 	private String value;
 
 	public TextValue(String asText) {
@@ -28,10 +28,11 @@ public class TextValue implements IValue {
 
 	@Override
 	public void writeTo(DcmWriter dcmWriter) throws IOException {
+		dcmWriter.writeln(comments);
 		dcmWriter.writeln("TEXT", DcmWriter.toDcmString(value));
 	}
 
-	public static <T extends IValue> String[] listToElementArray(List<T> l) {
+	public static <T extends Value> String[] listToElementArray(List<T> l) {
 		if (l == null || l.size() == 0)
 			return new String[0];
 

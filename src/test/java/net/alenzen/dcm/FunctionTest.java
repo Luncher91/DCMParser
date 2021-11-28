@@ -48,4 +48,18 @@ public class FunctionTest {
 		assertEquals("long----name", functionGroup.getFunctions().get(0).getLongname());
 		assertEquals("longerrrrrrrrrr name", functionGroup.getFunctions().get(1).getLongname());
 	}
+	
+	@Test
+	void testComments() {
+		assertEquals(2, functionGroup.getComments().size());
+		assertEquals("* comment number one", functionGroup.getComments().get(0));
+		assertEquals("* second line", functionGroup.getComments().get(1));
+		assertEquals("* comment", functionGroup.getEndComments().get(0));
+	}
+	
+	@Test
+	void testFunctionComments() {
+		assertEquals("* comment", functionGroup.getFunctions().get(0).getComments().get(0));
+		assertEquals("* comment", functionGroup.getFunctions().get(1).getComments().get(0));
+	}
 }

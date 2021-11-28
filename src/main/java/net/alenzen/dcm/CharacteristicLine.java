@@ -5,10 +5,12 @@ import java.util.List;
 
 public class CharacteristicLine extends BasicSyntaxElement {
 	private int sizeX;
+	private List<String> unitXComments;
 	private String unitX;
+	private List<String> unitWComments;
 	private String unitW;
-	private List<IValue> stx;
-	private List<IValue> values;
+	private List<Value> stx;
+	private List<Value> values;
 
 	public int getSizeX() {
 		return sizeX;
@@ -34,20 +36,36 @@ public class CharacteristicLine extends BasicSyntaxElement {
 		this.unitW = unitW;
 	}
 
-	public List<IValue> getStx() {
+	public List<Value> getStx() {
 		return stx;
 	}
 
-	public void setStx(List<IValue> stx) {
+	public void setStx(List<Value> stx) {
 		this.stx = stx;
 	}
 
-	public List<IValue> getValues() {
+	public List<Value> getValues() {
 		return values;
 	}
 
-	public void setValues(List<IValue> values) {
+	public void setValues(List<Value> values) {
 		this.values = values;
+	}
+
+	public List<String> getUnitXComments() {
+		return unitXComments;
+	}
+
+	public void setUnitXComments(List<String> unitXComments) {
+		this.unitXComments = unitXComments;
+	}
+
+	public List<String> getUnitWComments() {
+		return unitWComments;
+	}
+
+	public void setUnitWComments(List<String> unitWComments) {
+		this.unitWComments = unitWComments;
 	}
 
 	@Override
@@ -56,19 +74,20 @@ public class CharacteristicLine extends BasicSyntaxElement {
 	}
 	
 	protected void writeTo(DcmWriter p, String keyword) throws IOException {
-		p.writeln(keyword, this.getName(), Integer.toString(sizeX));
+		super.writeBeginning(p, keyword, Integer.toString(sizeX));
 
 		p.indent();
-		super.writeTo(p);
+		super.writeBodyTo(p);
+		p.writeln(unitXComments);
 		p.writeln("EINHEIT_X", DcmWriter.toDcmString(unitX));
+		p.writeln(unitWComments);
 		p.writeln("EINHEIT_W", DcmWriter.toDcmString(unitW));
 		writeToAfterUnits(p);
 		p.writeln("ST/X", stx);
-		p.writeIValues(values);
+		p.writeValues(values);
 		p.dedent();
 
-		p.writeEnd();
-		p.writeln();
+		super.writeEnd(p);
 	}
 	
 	protected void writeToAfterUnits(DcmWriter p) throws IOException {
