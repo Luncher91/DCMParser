@@ -4,10 +4,28 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>dcmparser</artifactId>
 	<name>DCM Parser</name>
-	<groupId>DCMParser</groupId>
+	<groupId>net.alenzen.dcm</groupId>
 	<version>2.0.0</version>
 	<packaging>jar</packaging>
 	<description>DAMOS DCM Parser (data conservation format)</description>
+	<url>https://github.com/Luncher91/DCMParser/</url>
+	<licenses>
+		<license>
+			<name>MIT License</name>
+			<url>https://github.com/Luncher91/DCMParser/blob/master/LICENSE</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	<scm>
+		<url>https://github.com/Luncher91/DCMParser.git</url>
+	</scm>
+	<distributionManagement>
+		<repository>
+			<id>github</id>
+			<name>GitHub Luncher91 Apache Maven Packages</name>
+			<url>https://maven.pkg.github.com/Luncher91/DCMParser</url>
+		</repository>
+	</distributionManagement>
 	<properties>
 		<antlr4.version>4.9.1</antlr4.version>
 		<jackson.version>2.12.0</jackson.version>
