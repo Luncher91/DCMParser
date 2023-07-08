@@ -32,11 +32,4 @@ pipeline {
             }
         }
     }
-    post {
-        always {
-            mail body: "$BUILD_URL\nDuration: $currentBuild.durationString",
-            subject: "[$currentBuild.result] $currentBuild.projectName build $BUILD_ID",
-            to: 'hydrogenDCMParserBuild@lord-luncher.de'
-        }
-    }
 }
